@@ -11,3 +11,23 @@ kernel:
 
 api_login_check:
     path: /api/login_check
+
+app_listformation:
+    path: '/api/listformation'
+    controller: 'App\Controller\FormationController::listFormation'
+    methods: ['GET']
+
+app_addformation:
+    path: '/api/addformation'
+    controller: 'App\Controller\FormationController::addFormation'
+    methods: ['POST']
+
+app_updateformation:
+    path: '/api/updateformation/{id}'
+    controller: 'App\Controller\FormationController::updateFormation'
+    methods: ['PUT']
+
+app_deleteformation:
+    path: '/api/deleteformation/{id}'
+    controller: 'App\Controller\FormationController::deleteFormation'
+    methods: ['DELETE']
