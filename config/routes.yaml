@@ -12,6 +12,8 @@ kernel:
 api_login_check:
     path: /api/login_check
 
+
+
 app_listformation:
     path: '/api/listformation'
     controller: 'App\Controller\FormationController::listFormation'
@@ -31,3 +33,9 @@ app_deleteformation:
     path: '/api/deleteformation/{id}'
     controller: 'App\Controller\FormationController::deleteFormation'
     methods: ['DELETE']
+
+
+app_candidater:
+    path: '/api/candidater/{formationId}'
+    controller: 'App\Controller\CandidatureController::candidater'
+    methods: ['POST']
