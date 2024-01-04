@@ -10,6 +10,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+
 
 class CandidatureController extends AbstractController
 {
@@ -53,5 +55,43 @@ $em->persist($candidature);
 $em->flush();
 return new JsonResponse(['message' => 'Candidature Refusee avec succès'], Response::HTTP_CREATED);
         
+    }
+
+
+    #[IsGranted("ROLE_ADMIN", message: 'Vous n\'avez pas les droits suffisants pour publier une formation')]
+   
+    #[Route('/api/listCandidature', name:'app_listCandidature', methods:['GET'])]
+   
+    public function listCandidature(CandidatureRepository $CandidatureRepository): JsonResponse
+    {
+        $Candidatures = $CandidatureRepository->findAll();
+    
+        return $this->json($Candidatures, 200, [], ['groups' => ['candidature', 'formation', 'user']]);      
+    }
+
+    #[Route('/api/listCandidatureRefuge', name:'app_listCandidatureRefuge', methods:['GET'])]
+
+    public function listCandidatureRefuge(CandidatureRepository $candidatureRepository): JsonResponse
+    {
+        $candidatures = $candidatureRepository->createQueryBuilder('c')
+            ->where('c.validation = :validation')
+            ->setParameter('validation', 'Refuser')
+            ->getQuery()
+            ->getResult();
+    
+        return $this->json($candidatures, 200, [], ['groups' => ['candidature', 'formation', 'user']]);
+    }
+
+    #[Route('/api/listCandidatureAccepte', name:'app_listCandidatureAccepte', methods:['GET'])]
+
+    public function listCandidatureAccepte(CandidatureRepository $candidatureRepository): JsonResponse
+    {
+        $candidatures = $candidatureRepository->createQueryBuilder('c')
+            ->where('c.validation = :validation')
+            ->setParameter('validation', 'Accepte')
+            ->getQuery()
+            ->getResult();
+    
+        return $this->json($candidatures, 200, [], ['groups' => ['candidature', 'formation', 'user']]);
     }
 }

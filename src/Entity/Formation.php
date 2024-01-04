@@ -23,7 +23,7 @@ class Formation
     #[ORM\Column(length: 255)]
     private ?string $status = null;
 
-    #[ORM\OneToMany(mappedBy: 'formation_id', targetEntity: Candidature::class)]
+    #[ORM\OneToMany(mappedBy: 'formation', targetEntity: Candidature::class)]
     private Collection $candidatures;
 
     public function __construct()
@@ -73,10 +73,12 @@ class Formation
     /**
      * @return Collection<int, Candidature>
      */
-    public function getCandidatures(): Collection
-    {
-        return $this->candidatures;
-    }
+
+    //  #[Groups("formation")]
+    // public function getCandidatures(): Collection
+    // {
+    //     return $this->candidatures;
+    // }
 
     public function addCandidature(Candidature $candidature): static
     {
